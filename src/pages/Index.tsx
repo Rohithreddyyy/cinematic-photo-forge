@@ -1,9 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Upload, Zap, Download, Star, Check, Menu, X, Play } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/clerk-react';
+import AuthButtons from "@/components/AuthButtons";
 
 const Index = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -12,18 +13,18 @@ const Index = () => {
   
   const transformExamples = [
     {
-      before: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=600&h=600&fit=crop",
-      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      before: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
       style: "Studio Ghibli Magic"
     },
     {
-      before: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
-      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      before: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
       style: "Anime Warrior"
     },
     {
-      before: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=600&fit=crop",
-      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      before: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop",
       style: "Cinematic Portrait"
     }
   ];
@@ -33,21 +34,21 @@ const Index = () => {
       name: "Sarah Chen",
       role: "Digital Artist",
       content: "Revolutionary. This AI transformed my creative workflow completely.",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop",
       rating: 5
     },
     {
       name: "Marcus Rodriguez",
       role: "Content Creator",
       content: "My audience is obsessed with these transformations. Game changer.",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop",
       rating: 5
     },
     {
       name: "Emma Thompson",
       role: "Professional Photographer",
       content: "The quality is stunning. It's like having a master artist at my fingertips.",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop",
       rating: 5
     }
   ];
@@ -139,12 +140,7 @@ const Index = () => {
             </div>
             
             <div className="hidden md:flex space-x-4">
-              <Button variant="ghost" className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300">
-                Sign In
-              </Button>
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105">
-                Try Free
-              </Button>
+              <AuthButtons />
             </div>
 
             {/* Mobile Menu Button */}
@@ -173,8 +169,17 @@ const Index = () => {
               </a>
             ))}
             <div className="flex flex-col space-y-2 pt-4">
-              <Button variant="ghost" className="justify-start">Sign In</Button>
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white">Try Free</Button>
+              <SignedOut>
+                <SignInButton fallbackRedirectUrl="/">
+                  <Button variant="ghost" className="justify-start">Sign In</Button>
+                </SignInButton>
+                <SignUpButton fallbackRedirectUrl="/">
+                  <Button className="bg-blue-500 hover:bg-blue-600 text-white">Try Free</Button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white">Dashboard</Button>
+              </SignedIn>
             </div>
           </div>
         </div>
@@ -201,13 +206,26 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-slide-up delay-500">
-              <Button 
-                size="lg" 
-                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 group"
-              >
-                Start Creating Free
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <SignedOut>
+                <SignUpButton fallbackRedirectUrl="/">
+                  <Button 
+                    size="lg" 
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 group"
+                  >
+                    Start Creating Free
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
+                <Button 
+                  size="lg" 
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 group"
+                >
+                  Go to Dashboard
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </SignedIn>
               <Button 
                 size="lg" 
                 variant="outline" 
