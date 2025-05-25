@@ -3,26 +3,28 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Upload, Zap, Download, Star, Check } from "lucide-react";
+import { ArrowRight, Upload, Zap, Download, Star, Check, Menu, X, Play } from "lucide-react";
 
 const Index = () => {
   const [currentImage, setCurrentImage] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   
   const transformExamples = [
     {
-      before: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=400&fit=crop",
-      after: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
-      style: "Studio Ghibli"
+      before: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=600&h=600&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      style: "Studio Ghibli Magic"
     },
     {
-      before: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=400&fit=crop",
-      after: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=400&fit=crop",
-      style: "Anime Action"
+      before: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      style: "Anime Warrior"
     },
     {
-      before: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=400&fit=crop",
-      after: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=400&h=400&fit=crop",
-      style: "Cinematic"
+      before: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=600&fit=crop",
+      after: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop",
+      style: "Cinematic Portrait"
     }
   ];
 
@@ -30,19 +32,22 @@ const Index = () => {
     {
       name: "Sarah Chen",
       role: "Digital Artist",
-      content: "This AI transformed my portrait into a stunning Studio Ghibli masterpiece. The quality is incredible!",
+      content: "Revolutionary. This AI transformed my creative workflow completely.",
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop",
       rating: 5
     },
     {
       name: "Marcus Rodriguez",
       role: "Content Creator",
-      content: "Game-changing tool for my social media content. My followers love the anime-style transformations!",
+      content: "My audience is obsessed with these transformations. Game changer.",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
       rating: 5
     },
     {
       name: "Emma Thompson",
-      role: "Photographer",
-      content: "As a professional photographer, I'm amazed by the artistic quality. It's like having a digital artist on demand.",
+      role: "Professional Photographer",
+      content: "The quality is stunning. It's like having a master artist at my fingertips.",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
       rating: 5
     }
   ];
@@ -50,18 +55,18 @@ const Index = () => {
   const features = [
     {
       icon: Upload,
-      title: "Upload Your Photo",
-      description: "Simply drag and drop or select any photo from your device"
+      title: "Upload Instantly",
+      description: "Drag, drop, or click to upload any photo from your device in seconds"
     },
     {
       icon: Zap,
-      title: "AI Magic Happens",
-      description: "Our GPT-powered AI analyzes and transforms your image with stunning artistic styles"
+      title: "AI Transforms",
+      description: "Our advanced GPT-powered AI analyzes and recreates your image with artistic precision"
     },
     {
       icon: Download,
       title: "Download & Share",
-      description: "Get your high-resolution artwork in seconds, ready to share or print"
+      description: "Get your masterpiece in ultra-high resolution, ready for any platform"
     }
   ];
 
@@ -69,23 +74,26 @@ const Index = () => {
     {
       name: "Starter",
       price: "Free",
-      features: ["3 transformations/month", "720p resolution", "Basic styles", "Community support"],
-      buttonText: "Get Started",
+      description: "Perfect for trying out our AI",
+      features: ["5 transformations/month", "1080p resolution", "Basic styles", "Community support"],
+      buttonText: "Start Free",
       popular: false
     },
     {
-      name: "Pro",
-      price: "$19",
+      name: "Creator",
+      price: "$29",
       period: "/month",
-      features: ["100 transformations/month", "4K resolution", "All premium styles", "Priority processing", "Email support"],
-      buttonText: "Start Pro Trial",
+      description: "For serious content creators",
+      features: ["200 transformations/month", "4K resolution", "All premium styles", "Priority processing", "Premium support"],
+      buttonText: "Start Creating",
       popular: true
     },
     {
-      name: "Enterprise",
+      name: "Studio",
       price: "$99",
       period: "/month",
-      features: ["Unlimited transformations", "8K resolution", "Custom styles", "API access", "24/7 support"],
+      description: "For professionals and teams",
+      features: ["Unlimited transformations", "8K resolution", "Custom styles", "API access", "White-label solution", "24/7 support"],
       buttonText: "Contact Sales",
       popular: false
     }
@@ -98,104 +106,188 @@ const Index = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+    <div className="min-h-screen bg-white text-gray-900 overflow-x-hidden">
       {/* Navigation */}
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center relative z-50">
-        <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-          ArtifyAI
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        scrollY > 50 ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100' : 'bg-transparent'
+      }`}>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="text-2xl font-bold text-gray-900 transform transition-all duration-300 hover:scale-105">
+              ArtifyAI
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex space-x-8">
+              {['Features', 'Demo', 'Pricing', 'About'].map((item) => (
+                <a 
+                  key={item}
+                  href={`#${item.toLowerCase()}`} 
+                  className="text-gray-600 hover:text-gray-900 transition-all duration-300 hover:scale-105 relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
+            </div>
+            
+            <div className="hidden md:flex space-x-4">
+              <Button variant="ghost" className="text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300">
+                Sign In
+              </Button>
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105">
+                Try Free
+              </Button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-all duration-300"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-        <div className="hidden md:flex space-x-8">
-          <a href="#features" className="hover:text-purple-400 transition-colors">Features</a>
-          <a href="#demo" className="hover:text-purple-400 transition-colors">Demo</a>
-          <a href="#pricing" className="hover:text-purple-400 transition-colors">Pricing</a>
-        </div>
-        <div className="space-x-4">
-          <Button variant="ghost" className="text-white hover:text-purple-400">
-            Sign In
-          </Button>
-          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-            Try Free
-          </Button>
+
+        {/* Mobile Menu */}
+        <div className={`md:hidden bg-white border-t border-gray-100 transform transition-all duration-500 ${
+          isMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+        }`}>
+          <div className="px-6 py-4 space-y-4">
+            {['Features', 'Demo', 'Pricing', 'About'].map((item) => (
+              <a 
+                key={item}
+                href={`#${item.toLowerCase()}`} 
+                className="block text-gray-600 hover:text-gray-900 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
+            <div className="flex flex-col space-y-2 pt-4">
+              <Button variant="ghost" className="justify-start">Sign In</Button>
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white">Try Free</Button>
+            </div>
+          </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-20 text-center">
-        <div className="max-w-4xl mx-auto">
-          <Badge className="mb-6 bg-purple-600/20 text-purple-300 border-purple-600/30">
-            Powered by GPT Image AI
-          </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
-            Transform Your Photos Into 
-            <span className="block bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Cinematic Art
-            </span>
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Upload any photo and watch our AI transform it into stunning Studio Ghibli illustrations, 
-            epic anime artwork, or cinematic masterpieces in seconds.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-4 text-lg">
-              Start Creating <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-gray-600 text-white hover:bg-gray-800 px-8 py-4 text-lg">
-              Watch Demo
-            </Button>
+      <section className="pt-32 pb-20 px-6 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="animate-fade-in">
+            <Badge className="mb-8 bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 transition-all duration-300 transform hover:scale-105">
+              ✨ Powered by GPT-4 Vision
+            </Badge>
+            
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent leading-tight animate-slide-up">
+              Transform Photos Into
+              <span className="block mt-2 animate-slide-up delay-200">
+                Cinematic Art
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed animate-slide-up delay-300">
+              Upload any photo and watch our AI transform it into stunning Studio Ghibli illustrations, 
+              epic anime artwork, or photorealistic masterpieces in seconds.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-slide-up delay-500">
+              <Button 
+                size="lg" 
+                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg shadow-xl hover:shadow-2xl transform transition-all duration-300 hover:scale-105 group"
+              >
+                Start Creating Free
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-4 text-lg shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 group"
+              >
+                <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                Watch Demo
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Live Demo Section */}
-      <section id="demo" className="container mx-auto px-6 py-20">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">See the Magic in Action</h2>
-          <p className="text-xl text-gray-300">Real transformations, real results</p>
-        </div>
-        
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-200">Original Photo</h3>
-                <div className="aspect-square rounded-xl overflow-hidden">
+      <section id="demo" className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+              See the Magic
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Real transformations, real results. Watch ordinary photos become extraordinary art.
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+            {/* Before Image */}
+            <div className="transform transition-all duration-700 hover:scale-105">
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-semibold text-gray-800">Original Photo</h3>
+                  <Badge variant="outline" className="text-gray-600">Before</Badge>
+                </div>
+                <div className="aspect-square rounded-2xl overflow-hidden shadow-lg">
                   <img 
                     src={transformExamples[currentImage].before}
                     alt="Original"
-                    className="w-full h-full object-cover transition-all duration-500"
+                    className="w-full h-full object-cover transition-all duration-1000 transform hover:scale-110"
                   />
                 </div>
               </div>
             </div>
             
-            <div className="space-y-6">
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-900/30 to-pink-900/30 p-6 border border-purple-500/20">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-gray-200">AI Transformed</h3>
-                  <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+            {/* Arrow Animation */}
+            <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 z-10">
+              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center shadow-xl animate-pulse">
+                <ArrowRight className="text-white h-8 w-8" />
+              </div>
+            </div>
+            
+            {/* After Image */}
+            <div className="transform transition-all duration-700 hover:scale-105">
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 border border-blue-100">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-2xl font-semibold text-gray-800">AI Transformed</h3>
+                  <Badge className="bg-blue-500 text-white">
                     {transformExamples[currentImage].style}
                   </Badge>
                 </div>
-                <div className="aspect-square rounded-xl overflow-hidden">
+                <div className="aspect-square rounded-2xl overflow-hidden shadow-lg relative">
                   <img 
                     src={transformExamples[currentImage].after}
                     alt="Transformed"
-                    className="w-full h-full object-cover transition-all duration-500"
+                    className="w-full h-full object-cover transition-all duration-1000 transform hover:scale-110"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-500/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="flex justify-center mt-8 space-x-2">
+          {/* Carousel Indicators */}
+          <div className="flex justify-center mt-12 space-x-3">
             {transformExamples.map((_, index) => (
               <button
                 key={index}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`w-4 h-4 rounded-full transition-all duration-300 transform hover:scale-125 ${
                   index === currentImage 
-                    ? 'bg-gradient-to-r from-purple-400 to-pink-400' 
-                    : 'bg-gray-600'
+                    ? 'bg-blue-500 shadow-lg' 
+                    : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 onClick={() => setCurrentImage(index)}
               />
@@ -205,139 +297,215 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">How It Works</h2>
-          <p className="text-xl text-gray-300">Three simple steps to artistic magic</p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Card key={index} className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700 hover:border-purple-500/50 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Icon className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-white">{feature.title}</h3>
-                  <p className="text-gray-300 leading-relaxed">{feature.description}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
+      <section id="features" className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Three simple steps to transform your photos into stunning artwork
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <div 
+                  key={index} 
+                  className="group transform transition-all duration-500 hover:scale-105"
+                  style={{ animationDelay: `${index * 200}ms` }}
+                >
+                  <Card className="bg-white border-0 shadow-xl hover:shadow-2xl transition-all duration-500 h-full">
+                    <CardContent className="p-8 text-center h-full flex flex-col">
+                      <div className="w-20 h-20 mx-auto mb-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-lg">
+                        <Icon className="h-10 w-10 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold mb-4 text-gray-900">{feature.title}</h3>
+                        <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Users Say</h2>
-          <p className="text-xl text-gray-300">Join thousands of satisfied creators</p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700 hover:border-purple-500/30 transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-300 mb-6 italic">"{testimonial.content}"</p>
-                <div>
-                  <p className="font-semibold text-white">{testimonial.name}</p>
-                  <p className="text-gray-400 text-sm">{testimonial.role}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+              Loved by Creators
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Join thousands of artists, creators, and professionals who trust ArtifyAI
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index}
+                className="transform transition-all duration-500 hover:scale-105"
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <Card className="bg-gradient-to-br from-gray-50 to-white border-0 shadow-xl hover:shadow-2xl transition-all duration-500 h-full">
+                  <CardContent className="p-8 h-full flex flex-col">
+                    <div className="flex mb-6">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 mb-8 italic text-lg leading-relaxed flex-1">
+                      "{testimonial.content}"
+                    </p>
+                    <div className="flex items-center">
+                      <img 
+                        src={testimonial.avatar} 
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full mr-4 shadow-lg"
+                      />
+                      <div>
+                        <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                        <p className="text-gray-600 text-sm">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="container mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Choose Your Plan</h2>
-          <p className="text-xl text-gray-300">Start free, upgrade when you're ready</p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {pricingPlans.map((plan, index) => (
-            <Card key={index} className={`relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 border-gray-700 hover:border-purple-500/50 transition-all duration-300 ${plan.popular ? 'border-purple-500 scale-105' : ''}`}>
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-1">
-                    Most Popular
-                  </Badge>
-                </div>
-              )}
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-2 text-white">{plan.name}</h3>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-white">{plan.price}</span>
-                  {plan.period && <span className="text-gray-400">{plan.period}</span>}
-                </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-gray-300">
-                      <Check className="h-5 w-5 text-green-400 mr-3" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  className={`w-full ${plan.popular 
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' 
-                    : 'bg-gray-700 hover:bg-gray-600'
-                  } text-white`}
-                >
-                  {plan.buttonText}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+      <section id="pricing" className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">
+              Simple Pricing
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Start creating for free. Upgrade when you're ready for more power.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {pricingPlans.map((plan, index) => (
+              <div 
+                key={index}
+                className={`transform transition-all duration-500 hover:scale-105 ${
+                  plan.popular ? 'scale-105 md:scale-110' : ''
+                }`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <Card className={`relative h-full ${
+                  plan.popular 
+                    ? 'bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 shadow-2xl' 
+                    : 'bg-white border-0 shadow-xl hover:shadow-2xl'
+                } transition-all duration-500`}>
+                  {plan.popular && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                      <Badge className="bg-blue-500 text-white px-6 py-2 text-sm font-semibold shadow-lg">
+                        Most Popular
+                      </Badge>
+                    </div>
+                  )}
+                  <CardContent className="p-8 h-full flex flex-col">
+                    <div className="text-center mb-8">
+                      <h3 className="text-2xl font-bold mb-2 text-gray-900">{plan.name}</h3>
+                      <p className="text-gray-600 mb-6">{plan.description}</p>
+                      <div className="mb-6">
+                        <span className="text-5xl font-bold text-gray-900">{plan.price}</span>
+                        {plan.period && <span className="text-gray-600 text-lg">{plan.period}</span>}
+                      </div>
+                    </div>
+                    
+                    <ul className="space-y-4 mb-8 flex-1">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center text-gray-700">
+                          <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <Button 
+                      className={`w-full py-4 text-lg font-semibold transform transition-all duration-300 hover:scale-105 ${
+                        plan.popular 
+                          ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl' 
+                          : 'bg-gray-900 hover:bg-gray-800 text-white shadow-lg hover:shadow-xl'
+                      }`}
+                    >
+                      {plan.buttonText}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 bg-gray-900/50">
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
+      <footer className="bg-gray-900 text-white py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div className="md:col-span-1">
+              <div className="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 ArtifyAI
               </div>
-              <p className="text-gray-400">Transform your photos into stunning artwork with the power of AI.</p>
+              <p className="text-gray-400 leading-relaxed">
+                Transform your photos into stunning artwork with the power of AI. 
+                Join the creative revolution.
+              </p>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4 text-white">Product</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">API</a></li>
+              <h4 className="font-semibold mb-6 text-lg">Product</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">API</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Mobile App</a></li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4 text-white">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-purple-400 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Careers</a></li>
+              <h4 className="font-semibold mb-6 text-lg">Company</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Press</a></li>
               </ul>
             </div>
+            
             <div>
-              <h4 className="font-semibold mb-4 text-white">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-purple-400 transition-colors">Privacy</a></li>
+              <h4 className="font-semibold mb-6 text-lg">Support</h4>
+              <ul className="space-y-3 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 ArtifyAI. All rights reserved.</p>
+          
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400">&copy; 2024 ArtifyAI. All rights reserved.</p>
+              <div className="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Twitter</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Instagram</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
